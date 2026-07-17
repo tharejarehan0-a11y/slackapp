@@ -6,12 +6,28 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 load_dotenv()
 
+
 app = App(
     token=os.environ["SLACK_BOT_TOKEN"],
     signing_secret=os.environ["SLACK_SIGNING_SECRET"],
 )
 #commands
 
+
+
+@app.command("/hellocleaner")
+def hellocleaner(ack,say):
+    ack()
+    say("hello This is Cleaner, Let's clean your slack")
+
+@app.command("/listchannel")
+def channellist(ack , client , respond):
+    ack()
+    respond = client.conversations_list(
+        types = "public_channel,private_channel,mpim,im",
+    )
+    for channel in respond['channels']:
+        print(channel['name'])
 
 if __name__ == "__main__" :
     SocketModeHandler(
