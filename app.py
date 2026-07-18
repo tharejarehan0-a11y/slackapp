@@ -6,7 +6,6 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 load_dotenv()
 
-
 app = App(
     token=os.environ["SLACK_BOT_TOKEN"],
     signing_secret=os.environ["SLACK_SIGNING_SECRET"],
@@ -14,6 +13,102 @@ app = App(
 #commands
 
 
+
+@app.command("/testing")
+def testing(ack,body,client):
+    ack()
+
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type":"modal",
+            "callback_id":"testdashboard",
+            "title":{
+                "type":"plain_text",
+                "text":"testing_dashboard"
+            },
+            "submit":{
+                "type":"plain_text",
+                "text":"Submit"
+            },
+            "blocks": [
+                {
+                    "type":"actions",
+                    "block_id":"interest",
+                    "elements": [
+                        {
+                            "type":"checkboxes",
+                            "action_id":"channel_checkboxes",
+                            "options":[
+                                {
+                                    "text":{
+                                        "type":"plain_text",
+                                        "text":"Art"
+                                    },
+                                    "value":"Art"
+                                },
+                                {
+                                    "text":{
+                                        "type":"plain_text",
+                                        "text":"robotics"
+                                    },
+                                    "value":"Robotics"
+                                },
+                                {
+                                    "text":{
+                                        "type":"plain_text",
+                                        "text":"Software"
+                                    },
+                                    "value":"Software"
+                                },
+                                {
+                                    "text":{
+                                        "type":"plain_text",
+                                        "text":"Hardware"
+                                    },
+                                    "value":"Hardware"
+                                },
+                                {
+                                    "text":{
+                                        "type":"plain_text",
+                                        "text":"CAD"
+                                    },
+                                    "value":"CAD"
+                                }
+                            ],
+                            "initial_options": [
+                                {
+                                    "text":{
+                                        "type":"plain_text",
+                                        "text":"Software"
+                                    },
+                                    "value":"Software"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    )
+
+channel = {
+    "Software":["code"],
+    "Hardware":["hardware"],
+    "Art":["art"],
+    "CAD":["cad"]
+}
+
+@app.view("testdashboard")
+def handle_view_submission_events(ack,body,logger):
+    ack()
+
+    logger.info(body)
+
+    options = logger.info(body)
+
+    length = len(options)
+    print(length)
 
 @app.command("/hellocleaner")
 def hellocleaner(ack,say):
