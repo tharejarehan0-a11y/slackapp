@@ -21,75 +21,61 @@ def testing(ack,body,client):
     client.views_open(
         trigger_id=body["trigger_id"],
         view={
-            "type":"modal",
-            "callback_id":"testdashboard",
-            "title":{
-                "type":"plain_text",
-                "text":"testing_dashboard"
-            },
-            "submit":{
-                "type":"plain_text",
-                "text":"Submit"
-            },
-            "blocks": [
-                {
-                    "type":"actions",
-                    "block_id":"interest",
-                    "elements": [
-                        {
-                            "type":"checkboxes",
-                            "action_id":"channel_checkboxes",
-                            "options":[
-                                {
-                                    "text":{
-                                        "type":"plain_text",
-                                        "text":"Art"
-                                    },
-                                    "value":"Art"
-                                },
-                                {
-                                    "text":{
-                                        "type":"plain_text",
-                                        "text":"robotics"
-                                    },
-                                    "value":"Robotics"
-                                },
-                                {
-                                    "text":{
-                                        "type":"plain_text",
-                                        "text":"Software"
-                                    },
-                                    "value":"Software"
-                                },
-                                {
-                                    "text":{
-                                        "type":"plain_text",
-                                        "text":"Hardware"
-                                    },
-                                    "value":"Hardware"
-                                },
-                                {
-                                    "text":{
-                                        "type":"plain_text",
-                                        "text":"CAD"
-                                    },
-                                    "value":"CAD"
-                                }
-                            ],
-                            "initial_options": [
-                                {
-                                    "text":{
-                                        "type":"plain_text",
-                                        "text":"Software"
-                                    },
-                                    "value":"Software"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
+	"type": "modal",
+    "callback_id": "submission",
+	"title": {
+		"type": "plain_text",
+		"text": "My App",
+		"emoji": True
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit",
+		"emoji": True
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": True
+	},
+	"blocks":[
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "checkboxes",
+					"options": [
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "Software",
+								"emoji": True
+							},
+							"value": "value-0"
+						},
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "Hardware",
+								"emoji": True
+							},
+							"value": "value-1"
+						},
+						{
+							"text": {
+								"type": "plain_text",
+								"text": "CAD",
+								"emoji": True
+							},
+							"value": "value-2"
+						}
+					],
+					"action_id": "channel_checkboxes"
+				}
+			]
+		}
+	]
+}
     )
 
 channel = {
@@ -99,16 +85,21 @@ channel = {
     "CAD":["cad"]
 }
 
-@app.view("testdashboard")
-def handle_view_submission_events(ack,body,logger):
+@app.action("channel_checkboxes")
+def handle_channels(ack,body,logger):
     ack()
-
     logger.info(body)
 
-    options = logger.info(body)
+@app.view("submission")
+def handle_view_submission(ack, body, logger):
+    ack()  
+    logger.info(body)
+    optiontable = body['view']['state']['values']['P5FdQ']['channel_checkboxes']['selected_options']
+    options= []
+    for x in range(0,len(optiontable)):
+        options.append(optiontable[x]['text']['text'])
+    print(options)
 
-    length = len(options)
-    print(length)
 
 @app.command("/hellocleaner")
 def hellocleaner(ack,say):
