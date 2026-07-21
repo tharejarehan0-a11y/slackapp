@@ -14,7 +14,7 @@ app = App(
 
 
 
-@app.command("/testing")
+@app.command("/addme")
 def testing(ack,body,client):
     ack()
 
@@ -78,42 +78,63 @@ def testing(ack,body,client):
 }
     )
 
-channel = {
-    "Software":["code"],
-    "Hardware":["hardware"],
-    "Art":["art"],
-    "CAD":["cad"]
-}
-
 @app.action("channel_checkboxes")
 def handle_channels(ack,body,logger):
     ack()
     logger.info(body)
 
 @app.view("submission")
-def handle_view_submission(ack, body, logger):
+def handle_view_submission(ack, body, logger,client):
     ack()  
     logger.info(body)
     optiontable = body['view']['state']['values']['P5FdQ']['channel_checkboxes']['selected_options']
-    options= []
+    user_id = body["user"]["id"]
+    print(user_id)
+    options = []
     for x in range(0,len(optiontable)):
         options.append(optiontable[x]['text']['text'])
     print(options)
 
+    if options.__contains__("Hardware"):
+        try:
+            client.conversations_invite(
+                channel='C6C026NHJ',
+                users = user_id
+            )
+        except:
+            client.chat_postMessage(
+                channel = user_id,
+                text = "Oooo you are already there in the Hardware channels !!! "
+            )
 
-@app.command("/hellocleaner")
+    if options.__contains__("Software"):
+        try:
+            client.conversations_invite(
+                channel='C0EA9S0A0',
+                users = user_id
+            )
+        except:
+            client.chat_postMessage(
+                channel = user_id,
+                text = "Oooo you are already there in the Software channels !!! "
+            )
+    if options.__contains__("CAD"):
+        try:
+            client.conversations_invite(
+                channel='C06DMUYHE5S',
+                users = user_id
+            )
+        except:
+            client.chat_postMessage(
+                channel = user_id,
+                text = "Oooo you are already there in the CAD channels !!! "
+            )
+
+@app.command("/helloclensie")
 def hellocleaner(ack,say):
     ack()
-    say("hello This is Cleaner, Let's clean your slack")
+    say("hello This is Clensie, Let's clean your slack")
 
-@app.command("/listchannel")
-def channellist(ack , client , respond):
-    ack()
-    respond = client.conversations_list(
-        types = "public_channel,private_channel,mpim,im",
-    )
-    for channel in respond['channels']:
-        print(channel['name'])
 
 if __name__ == "__main__" :
     SocketModeHandler(
