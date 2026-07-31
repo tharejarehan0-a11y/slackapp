@@ -5,6 +5,7 @@ from slack_bolt.adapter.socket_mode import SocketModeHandler
 import random
 from supabase import create_client, Client
 
+
 load_dotenv()
 
 app = App(
