@@ -12,3 +12,14 @@ This command can be used to list 3 topics randomly from all the topics present i
 
 # /clear
 This command can be used to clear all the topics from the database once you have chosen the 3 topics so that the next time new topics can be choosed 
+
+You can use this onto the hackclub slack 
+
+# File Structure 
+
+**app.py - contains all the python code used for this slack app**
+**logo.png - contains the logo for the bot**
+**readme.md - contains all the info about how to use it**
+**requirements.txt - contains all the required modules you need to install in order to run this**
+
+**Note:** in order to run this you also need to install the supabase module for python that is not in the requirements.txt file 
