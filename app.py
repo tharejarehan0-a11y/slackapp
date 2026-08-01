@@ -20,7 +20,7 @@ supabase: Client = create_client(url, key)
 @app.command("/clear")
 def clear_database(ack,body,client,logger):
     ack()
-    if body["user_id"] == ( "U0A2L9T7C12" ):
+    if body["user_id"] == os.environ.get("EVAN_USER_ID"):
         try:
              response = supabase.table("suggestions").delete().neq("topic","I am Rehan").execute()
              client.chat_postMessage(
