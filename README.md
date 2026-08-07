@@ -1,4 +1,9 @@
+
 # Cleansie
+
+
+
+https://github.com/user-attachments/assets/70622521-3dc2-43ab-ae85-2d7c80818e5c
 
 This is a slack bot that i built in order to serve the purpose of choosing a topic for the debates that we do in our hackclub slack what is essentially does is it asks you about the topic you wanna choose and then it stores the topics in a database essentially a supabase database . It also can help you clear the database when you want and also can help you for listing 3 random topics out of all the topics so that the topics are fairly chosen rather than being chosen paritially by someone 
 
