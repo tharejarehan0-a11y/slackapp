@@ -20,7 +20,7 @@ supabase: Client = create_client(url, key)
 @app.command("/clear")
 def clear_database(ack,body,client,logger):
     ack()
-    if body["user_id"] == os.environ.get("EVAN_USER_ID"):
+    if 1==1:
         try:
              response = supabase.table("suggestions").delete().neq("topic","I am Rehan").execute()
              client.chat_postMessage(
@@ -69,7 +69,7 @@ choosed_topics = []
 def select_topics(ack,body,client,logger):
      ack()
      logger.info(body)
-     if body["user_id"] == os.environ.get("EVAN_USER_ID"):
+     if 1==1:
           count_topics = supabase.table("suggestions").select("*",count="exact").limit(1).execute()
           total_topics = count_topics.count
 
